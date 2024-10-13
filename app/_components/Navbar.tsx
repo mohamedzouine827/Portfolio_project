@@ -77,10 +77,10 @@ const charVariants = {
 
 // Define the animation for the AnimatedButton
 const buttonVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
+    hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        scale: 1,
+
         transition: {
             duration: 0.7,
             ease: [0.42, 0, 0.58, 1],
