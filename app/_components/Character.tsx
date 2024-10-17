@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import ExploreDev from './ExploreDev';
 import ExploreDes from './ExploreDes';
+import Link from 'next/link';
 
 const headingText = "CHOOSE YOUR CHARACTER FOR YOUR JOURNEY";
 
@@ -80,7 +81,9 @@ const Character: React.FC = () => {
           animate={isVisible ? { height: '450px', transition: { duration: 1.2 } } : { height: '24px', transition: { duration: 1.2 } }}
           className="flex-shrink-0"
         >
+          <Link href="/art">
           <ExploreDes />
+          </Link>
         </motion.div>
       </div>
     </section>

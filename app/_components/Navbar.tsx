@@ -3,6 +3,8 @@ import React from 'react';
 import { Inter, Heebo } from 'next/font/google';
 import { motion } from 'framer-motion';
 import AnimatedButton from './AnimatedButton';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';  // Use usePathname from next/navigation
 
 const inter = Inter({
     subsets: ['latin'],
@@ -80,7 +82,6 @@ const buttonVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-
         transition: {
             duration: 0.7,
             ease: [0.42, 0, 0.58, 1],
@@ -89,6 +90,11 @@ const buttonVariants = {
 };
 
 export default function Navbar() {
+    const pathname = usePathname();  // Use the usePathname hook to get the current path
+
+    // Determine if the current path is "/art"
+    const isArtPath = pathname === '/art';
+
     return (
         <motion.section
             className='px-[60px] py-[16px] flex flex-row justify-between items-center'
@@ -97,34 +103,44 @@ export default function Navbar() {
             variants={sectionVariants} // Apply staggered animations to all children
         >
             {/* Animate the logo (ZOUINE) */}
-            <motion.div className='w-[143px]' variants={logoVariants}>
-                <span className={`${heebo.className} font-bold text-[24px] leading-8`}>
-                    ZOUINE
-                </span>
-            </motion.div>
+            <Link href="/">
+                <motion.div className='w-[143px]' variants={logoVariants}>
+                    <span className={`${heebo.className} font-bold text-[24px] leading-8`}>
+                        ZOUINE
+                    </span>
+                </motion.div>
+            </Link>
 
             {/* Animate the entire list */}
             <motion.ul
                 className={`${inter.className} flex flex-row gap-8`}
                 variants={listVariants} // Apply stagger to the list items
             >
-                {['WORK', 'ABOUT', 'SOCIALS'].map((item) => (
-                    <motion.li
-                        key={item}
-                        className='font-semibold text-base hover:text-[#452a2d] cursor-pointer transition-colors duration-150 ease-in-out'
-                        variants={itemVariants} // Animate each item
-                    >
-                        {item.split('').map((char, index) => (
-                            <motion.span
-                                key={index}
-                                variants={charVariants} // Animate each character
-                                style={{ display: 'inline-block' }} // Ensure animation applies to each character
-                            >
-                                {char}
-                            </motion.span>
-                        ))}
-                    </motion.li>
-                ))}
+                {['WORK', 'ABOUT', 'SOCIALS'].map((item) => {
+                    // Set specific color based on the path and list item
+                    const itemColor =
+                        item === 'WORK' && isArtPath
+                            ? 'text-black'  // Keep "WORK" black if on /art path
+                            : 'text-[#6A6969]';  // Other items turn gray on /art path
+
+                    return (
+                        <motion.li
+                            key={item}
+                            className={`font-semibold text-base cursor-pointer transition-colors duration-150 ease-in-out ${itemColor}`}
+                            variants={itemVariants} // Animate each item
+                        >
+                            {item.split('').map((char, index) => (
+                                <motion.span
+                                    key={index}
+                                    variants={charVariants} // Animate each character
+                                    style={{ display: 'inline-block' }} // Ensure animation applies to each character
+                                >
+                                    {char}
+                                </motion.span>
+                            ))}
+                        </motion.li>
+                    );
+                })}
             </motion.ul>
 
             {/* Animate the button */}
